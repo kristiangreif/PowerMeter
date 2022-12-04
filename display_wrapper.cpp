@@ -19,7 +19,7 @@ void basicsScreen(float voltage, float current, float power) {
 
     sprintf(strVoltage, "%6.3fV", voltage);
     sprintf(strCurrent, "%6.2fA", current); 
-    sprintf(strPower, "%4.0fW", power); 
+    sprintf(strPower, "%5.0fW", power); 
 
     display.clear();
 
