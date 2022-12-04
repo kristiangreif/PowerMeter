@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+  <title>PowerMeter</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" href="data:,">
+  <link rel="stylesheet" type="text/css" href="bootstrap.min.css">
+  <style media="screen">
+    body {
+      background-color: #232426;
+    }
+
+    .text-responsive {
+      font-size: calc(100% + 3vw + 3vh);
+    }
+  </style>
+  <script src="script.js" charset="utf-8" defer></script>
+</head>
+<body>
+    <nav class="navbar navbar-expand-sm bg-primary navbar-dark fixed-top">
+        <div class="container-fluid">
+          <a class="navbar-brand" href="#">PowerMeter</a>
+          <button class="btn btn-dark" id="settingsBtn" type="button">Settings</button>
+        </div>
+    </nav>
+    <div class="container-fluid px-3" style="margin-top:65px">
+        <div class="container p-3 bg-dark rounded text-light shadow d-none" id="settingsForm">
+            <form>
+                <label class="form-label">Undervoltage alarm:</label>
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <div class="input-group-text">
+                          <input type="checkbox">
+                        </div>
+                    </div>
+                    <input type="number" class="form-control quantity" min="1" step="0.01">
+                    <div class="input-group-append">
+                      <span class="input-group-text">V</span>
+                    </div>
+                </div>
+                <label class="form-label">Overvoltage alarm:</label>
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <div class="input-group-text">
+                          <input type="checkbox">
+                        </div>
+                    </div>
+                    <input type="number" class="form-control quantity" min="1" step="1">
+                    <div class="input-group-append">
+                      <span class="input-group-text">V</span>
+                    </div>
+                </div>
+                <label class="form-label">Overcurrent alarm:</label>
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <div class="input-group-text">
+                          <input type="checkbox">
+                        </div>
+                    </div>
+                    <input type="number" class="form-control quantity" min="1" step="1">
+                    <div class="input-group-append">
+                      <span class="input-group-text">A</span>
+                    </div>
+                </div>
+                <label class="form-label">Overpower alarm:</label>
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <div class="input-group-text">
+                          <input type="checkbox">
+                        </div>
+                    </div>
+                    <input type="number" class="form-control quantity" min="1" step="1">
+                    <div class="input-group-append">
+                      <span class="input-group-text">W</span>
+                    </div>
+                </div>
+                <div class="d-grid">
+                    <button type="button" class="btn btn-success btn-block">Save</button>
+                </div>
+            </form>
+        </div>
+        <div class="row">
+            <div class="col-md-6 col-lg-4 p-3">
+                <div class="card bg-info shadow">
+                    <div class="card-header text-light font-weight-bold">Voltage</div>
+                    <div class="card-body text-light">
+                        <h1 id="time1Display" class="display-1 text-center text-responsive">50.000V</h1>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 col-lg-4 p-3">
+                <div class="card bg-danger shadow">
+                    <div class="card-header text-light font-weight-bold">Current</div>
+                    <div class="card-body text-light">
+                        <h1 id="time1Display" class="display-1 text-center text-responsive">-99.99A</h1>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-12 col-lg-4 p-3">
+                <div class="card bg-success shadow">
+                    <div class="card-header text-light font-weight-bold">Power</div>
+                    <div class="card-body text-light">
+                        <h1 id="time1Display" class="display-1 text-center text-responsive">-1234W</h1>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6 p-3">
+                <div class="card bg-warning shadow">
+                    <div class="card-header text-light font-weight-bold">Capacity</div>
+                    <div class="card-body text-light">
+                        <h1 id="time1Display" class="display-1 text-center text-responsive">9999Ah</h1>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 p-3">
+                <div class="card bg-primary shadow">
+                    <div class="card-header text-light font-weight-bold">Energy</div>
+                    <div class="card-body text-light">
+                        <h1 id="time1Display" class="display-1 text-center text-responsive">99999Wh</h1>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

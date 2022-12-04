@@ -1,4 +1,5 @@
 #include "display_wrapper.h"
+#include "server_wrapper.h"
 #include "sensor_wrapper.h"
 #include "fonts.h"
 #include <OneButton.h>
@@ -14,6 +15,10 @@ void setup(){
     if(!setupINA()){
         Serial.println("Could not init INA226");
     }
+
+    initAP();
+    initServer();
+
     button.attachLongPressStart(toggle);
     button.attachClick(changeScreen);
 }
@@ -25,6 +30,7 @@ void loop(){
 
         readings->capacityAh = 0.0;
         readings->capacityWh = 0.0;
+
         while (measurementRunning){
             processReadings(readings, &lastTime);
             switch (screen){
@@ -36,10 +42,12 @@ void loop(){
                     capacityScreen(readings->capacityAh, readings->capacityWh);
                     break;
             }
+            processDNSRequests();
             button.tick();
         }
         free(readings);
     }
+    processDNSRequests();
     button.tick();
 }
 
@@ -48,6 +56,7 @@ void toggle(){
 }
 
 void changeScreen(){
+    sendMessage();
     screen += 1;
     if(screen > 1){
         screen = 0;
