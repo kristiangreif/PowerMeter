@@ -28,6 +28,17 @@ void initAP() {
     dnsServer.start(DNS_PORT, "*", apIP);
 }
 
+void handleWebSocketMessage(void *arg, uint8_t *data, size_t len) {
+  AwsFrameInfo *info = (AwsFrameInfo*)arg;
+  if (info->final && info->index == 0 && info->len == len && info->opcode == WS_TEXT) {
+    data[len] = 0;
+    Serial.println((char*) data);
+    // if (strcmp((char*)data, "toggle") == 0) {
+    //     
+    // }
+  }
+}
+
 void onWsEvent(AsyncWebSocket * server, AsyncWebSocketClient * client, AwsEventType type, void * arg, uint8_t *data, size_t len){
 
   if(type == WS_EVT_CONNECT){
@@ -40,6 +51,8 @@ void onWsEvent(AsyncWebSocket * server, AsyncWebSocketClient * client, AwsEventT
     Serial.println("Websocket client connection finished");
     globalClient = NULL;
 
+  } else if(type == WS_EVT_DATA){
+    handleWebSocketMessage(arg, data, len);
   }
 }
 
@@ -79,12 +92,13 @@ void initServer() {
     server.begin();
 }
 
-void processDNSRequests(){
+void handleConnections(){
     dnsServer.processNextRequest();
+    ws.cleanupClients();
 }
 
-void sendMessage(){
+void sendMessage(char *msg){
     if(globalClient != NULL && globalClient->status() == WS_CONNECTED){
-      globalClient->text("tate");
+      ws.textAll(msg);
     }
 }

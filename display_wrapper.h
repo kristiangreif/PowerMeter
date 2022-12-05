@@ -4,7 +4,7 @@
 #include <Arduino.h>
 
 void initDisplay();
-void basicsScreen(float voltage, float current, float power);
-void capacityScreen(float capacityAh, float capacityWh);
+void basicsScreen(char *voltage, char *current, char *power);
+void capacityScreen(char *capacityAh, char *capacityWh);
 
 #endif

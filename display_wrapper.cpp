@@ -2,8 +2,6 @@
 #include "fonts.h"
 #include "SSD1306Wire.h"
 
-#define MAX_VALUE_LENGTH 9
-
 SSD1306Wire display(0x3c, SDA, SCL);
 
 void initDisplay(){
@@ -11,16 +9,7 @@ void initDisplay(){
     display.flipScreenVertically();
 }
 
-void basicsScreen(float voltage, float current, float power) {
-    char *strVoltage, *strCurrent, *strPower;
-    strVoltage = (char*) malloc(MAX_VALUE_LENGTH);
-    strCurrent = (char*) malloc(MAX_VALUE_LENGTH);
-    strPower = (char*) malloc(MAX_VALUE_LENGTH);
-
-    sprintf(strVoltage, "%6.3fV", voltage);
-    sprintf(strCurrent, "%6.2fA", current); 
-    sprintf(strPower, "%5.0fW", power); 
-
+void basicsScreen(char *voltage, char *current, char *power) {
     display.clear();
 
     display.setTextAlignment(TEXT_ALIGN_LEFT);
@@ -31,25 +20,14 @@ void basicsScreen(float voltage, float current, float power) {
 
     display.setTextAlignment(TEXT_ALIGN_RIGHT);
     display.setFont(Dialog_bold_16);
-    display.drawString(128, 0, strVoltage);
-    display.drawString(128, 21, strCurrent);
-    display.drawString(128, 42, strPower);
+    display.drawString(128, 0, voltage);
+    display.drawString(128, 21, current);
+    display.drawString(128, 42, power);
 
     display.display();
-
-    free(strVoltage);
-    free(strCurrent);
-    free(strPower);
 }
 
-void capacityScreen(float capacityAh, float capacityWh) {
-    char *strCapacityAh, *strCapacityWh;
-    strCapacityAh = (char*) malloc(MAX_VALUE_LENGTH);
-    strCapacityWh = (char*) malloc(MAX_VALUE_LENGTH);
-
-    sprintf(strCapacityAh, "%6.2fAh", capacityAh);
-    sprintf(strCapacityWh, "%6.0fWh", capacityWh);  
-
+void capacityScreen(char *capacityAh, char *capacityWh) {
     display.clear();
 
     display.setTextAlignment(TEXT_ALIGN_CENTER);
@@ -57,11 +35,8 @@ void capacityScreen(float capacityAh, float capacityWh) {
     display.drawString(64, 1, "Capacity");
 
     display.setFont(Dialog_bold_16);
-    display.drawString(64, 21, strCapacityAh);
-    display.drawString(64, 42, strCapacityWh);
+    display.drawString(64, 21, capacityAh);
+    display.drawString(64, 42, capacityWh);
 
     display.display();
-
-    free(strCapacityAh);
-    free(strCapacityWh);
 }
