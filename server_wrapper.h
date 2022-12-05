@@ -5,7 +5,7 @@
 
 void initAP();
 void initServer();
-void processDNSRequests();
-void sendMessage();
+void handleConnections();
+void sendMessage(char *msg);
 
 #endif
