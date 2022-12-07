@@ -24,7 +24,6 @@ bool setupINA();
 float getVoltage();
 float getCurrent();
 void processReadings(READINGS *readings, unsigned long *lastTime);
-void convertToString(READINGS *readings);
 void convertToJSON(READINGS *readings, char *output);
 
 #endif
