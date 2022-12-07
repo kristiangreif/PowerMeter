@@ -31,10 +31,10 @@
                 <div class="input-group mb-3">
                     <div class="input-group-prepend">
                         <div class="input-group-text">
-                          <input type="checkbox" class="limitEnabled">
+                            <input type="checkbox" class="limitEnabled">
                         </div>
                     </div>
-                    <input type="number" class="form-control limit" min="1" step="0.01">
+                    <input type="number" class="form-control limit voltageSetting" min="0" step="0.01" placeholder="Undervoltage limit">
                     <div class="input-group-append">
                       <span class="input-group-text">V</span>
                     </div>
@@ -46,7 +46,7 @@
                           <input type="checkbox" class="limitEnabled">
                         </div>
                     </div>
-                    <input type="number" class="form-control limit" min="1" step="1">
+                    <input type="number" class="form-control limit voltageSetting" min="0" step="0.01" placeholder="Overvoltage limit">
                     <div class="input-group-append">
                       <span class="input-group-text">V</span>
                     </div>
@@ -58,7 +58,7 @@
                           <input type="checkbox" class="limitEnabled">
                         </div>
                     </div>
-                    <input type="number" class="form-control limit" min="1" step="1">
+                    <input type="number" class="form-control limit currentSetting" min="0" step="0.01" placeholder="Overcurrent limit">
                     <div class="input-group-append">
                       <span class="input-group-text">A</span>
                     </div>
@@ -70,7 +70,7 @@
                           <input type="checkbox" class="limitEnabled">
                         </div>
                     </div>
-                    <input type="number" class="form-control limit" min="1" step="1">
+                    <input type="number" class="form-control limit powerSetting" min="0" step="1" placeholder="Overpower limit">
                     <div class="input-group-append">
                       <span class="input-group-text">W</span>
                     </div>

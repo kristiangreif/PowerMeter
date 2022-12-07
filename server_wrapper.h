@@ -2,6 +2,7 @@
 #define SERVER_WRAPPER_H
 
 #include <Arduino.h>
+#include "sensor_wrapper.h"
 
 void initAP();
 void initServer();
