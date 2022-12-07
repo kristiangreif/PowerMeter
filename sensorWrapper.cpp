@@ -11,6 +11,7 @@ INA226 INA(0x40);
 bool setupINA(){
     Wire.begin();
     if(!INA.begin()){
+        Serial.println("Could not init INA226");
         return false;
     }
     INA.setAverage(4);
@@ -37,14 +38,12 @@ void processReadings(READINGS *readings, unsigned long *lastTime){
 
     readings->capacityAh = readings->capacityAh + (readings->current * dt);
     readings->capacityWh = readings->capacityWh + (readings->power * dt);
-}
 
-void convertToString(READINGS *readings){
     sprintf(readings->strVoltage, "%6.3fV", readings->voltage);
     sprintf(readings->strCurrent, "%6.2fA", readings->current); 
     sprintf(readings->strPower, "%5.0fW", readings->power);
     sprintf(readings->strCapacityAh, "%6.2fAh", readings->capacityAh);
-    sprintf(readings->strCapacityWh, "%6.0fWh", readings->capacityWh);  
+    sprintf(readings->strCapacityWh, "%6.0fWh", readings->capacityWh); 
 }
 
 void convertToJSON(READINGS *readings, char *output){

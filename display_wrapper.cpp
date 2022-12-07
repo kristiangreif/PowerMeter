@@ -9,6 +9,19 @@ void initDisplay(){
     display.flipScreenVertically();
 }
 
+void welcomeScreen(){
+    display.clear();
+
+    display.setTextAlignment(TEXT_ALIGN_CENTER);
+    display.setFont(Dialog_bold_16);
+    display.drawString(64, 0, "PowerMeter");
+    display.setFont(Dialog_plain_12);
+    display.drawString(64, 20, "Long press to start");
+    display.drawString(64, 40, "Connect via WiFi");
+
+    display.display();
+}
+
 void basicsScreen(char *voltage, char *current, char *power) {
     display.clear();
 
@@ -39,4 +52,16 @@ void capacityScreen(char *capacityAh, char *capacityWh) {
     display.drawString(64, 42, capacityWh);
 
     display.display();
+}
+
+void displayScreen(byte n, READINGS *readings){
+    switch (n){
+        case 0:
+            basicsScreen(readings->strVoltage, readings->strCurrent, readings->strPower);
+            break;
+        
+        case 1:
+            capacityScreen(readings->strCapacityAh, readings->strCapacityWh);
+            break;
+    }
 }
