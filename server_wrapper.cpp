@@ -32,22 +32,17 @@ void handleWebSocketMessage(void *arg, uint8_t *data, size_t len) {
   AwsFrameInfo *info = (AwsFrameInfo*)arg;
   if (info->final && info->index == 0 && info->len == len && info->opcode == WS_TEXT) {
     data[len] = 0;
-    Serial.println((char*) data);
-    // if (strcmp((char*)data, "toggle") == 0) {
-    //     
-    // }
+    // Serial.println((char*) data);
+    updateLimits((char*) data);
   }
 }
 
 void onWsEvent(AsyncWebSocket * server, AsyncWebSocketClient * client, AwsEventType type, void * arg, uint8_t *data, size_t len){
-
   if(type == WS_EVT_CONNECT){
-
     Serial.println("Websocket client connection received");
     globalClient = client;
 
   } else if(type == WS_EVT_DISCONNECT){
-
     Serial.println("Websocket client connection finished");
     globalClient = NULL;
 

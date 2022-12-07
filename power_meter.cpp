@@ -6,6 +6,7 @@
 #include <OneButton.h>
 
 #define UPDATE_INTERVAL 1000
+#define PROTECTION_DELAY 2000
 
 OneButton button(BTN_PIN, true, false);
 
@@ -28,6 +29,7 @@ void changeScreen(){
 void setupMeter(){
     initDisplay();
     setupINA();
+    pinMode(RELAY_PIN, OUTPUT);
 
     welcomeScreen();
 
@@ -44,17 +46,33 @@ void measure(){
         char *json = (char*) malloc(JSON_SIZE);
         unsigned long lastTime = 0;
         unsigned long lastUpdate = 0;
+        unsigned long protectionTriggerTime = 0;
+        bool protectionTimerActivated = false;
 
         readings->capacityAh = 0.0;
         readings->capacityWh = 0.0;
         
-        while (measurementRunning){
+        while(measurementRunning){
             processReadings(readings, &lastTime);
+
+            if(protectionTriggered(readings)){
+                if(!protectionTimerActivated){
+                    protectionTriggerTime = millis();
+                    protectionTimerActivated = true;
+                } else{
+                    if((millis() - protectionTriggerTime) >= PROTECTION_DELAY){
+                        digitalWrite(RELAY_PIN, HIGH);
+                    }
+                }
+            } else{
+                digitalWrite(RELAY_PIN, LOW);
+                protectionTimerActivated = false;
+            }
 
             displayScreen(screen, readings);
 
             if((millis() - lastUpdate) > UPDATE_INTERVAL){
-                convertToJSON(readings, json);
+                serializeReadings(readings, json);
                 sendMessage(json);
                 Serial.println(json);
                 lastUpdate = millis();
@@ -65,6 +83,8 @@ void measure(){
         }
         free(json);
         free(readings);
+
+        resetLimits();
 
         welcomeScreen();
     }
