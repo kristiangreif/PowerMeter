@@ -1,84 +1,95 @@
 <!DOCTYPE html>
 
 <html>
-<head>
-  <title>PowerMeter</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="icon" href="data:,">
-  <link rel="stylesheet" type="text/css" href="bootstrap.min.css">
-  <style media="screen">
-    body {
-      background-color: #232426;
-    }
 
-    .text-responsive {
-      font-size: calc(100% + 3vw + 3vh);
-    }
-  </style>
-  <script src="script.js" charset="utf-8" defer></script>
+<head>
+    <title>PowerMeter</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="icon" href="data:,">
+    <link rel="stylesheet" type="text/css" href="bootstrap.min.css">
+    <script src="bootstrap.bundle.min.js"></script>
+    <style media="screen">
+        body {
+            background-color: #232426;
+        }
+
+        .text-responsive {
+            font-size: calc(100% + 3vw + 3vh);
+        }
+    </style>
+    <script src="script.js" charset="utf-8" defer></script>
 </head>
+
 <body>
     <nav class="navbar navbar-expand-sm bg-primary navbar-dark fixed-top">
         <div class="container-fluid">
-          <a class="navbar-brand" href="#">PowerMeter</a>
-          <button class="btn btn-dark" id="settingsBtn" type="button">Settings</button>
+            <a class="navbar-brand" href="#">PowerMeter</a>
+            <div class="btn-group btn-group-lg" role="group" aria-label="Basic mixed styles example">
+                <button type="button" class="btn btn btn-danger" id="resetBtn">Reset</button>
+                <button type="button" class="btn btn-success" id="startBtn">Start</button>
+              </div>
+            <button class="btn btn-dark" id="settingsBtn" type="button" data-bs-toggle="modal"
+                data-bs-target="#exampleModal">Settings</button>
         </div>
     </nav>
-    <div class="container-fluid px-3" style="margin-top:65px">
-        <div class="container p-3 bg-dark rounded text-light shadow d-none" id="settingsForm">
-            <form>
-                <label class="form-label">Undervoltage alarm:</label>
-                <div class="input-group mb-3">
-                    <div class="input-group-prepend">
-                        <div class="input-group-text">
-                            <input type="checkbox" class="limitEnabled">
+    <div class="container-fluid px-3" style="margin-top:70px">
+        <!-- Modal -->
+        <div class="modal fade" data-bs-theme="dark" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h1 class="modal-title fs-5" id="exampleModalLabel">Settings</h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <form>
+                            <label class="form-label">Undervoltage alarm:</label>
+                            <div class="input-group mb-3">
+                                <div class="input-group-text">
+                                    <input type="checkbox" class="limitEnabled">
+                                </div>
+                                <input type="number" class="form-control limit voltageSetting" min="0" step="0.01"
+                                    placeholder="Undervoltage limit">
+                                <span class="input-group-text">V</span>
+                            </div>
+                            <label class="form-label">Overvoltage alarm:</label>
+                            <div class="input-group mb-3">
+                                <div class="input-group-text">
+                                    <input type="checkbox" class="limitEnabled">
+                                </div>
+                                <input type="number" class="form-control limit voltageSetting" min="0" step="0.01"
+                                    placeholder="Overvoltage limit">
+                                <span class="input-group-text">V</span>
+                            </div>
+                            <label class="form-label">Overcurrent alarm:</label>
+                            <div class="input-group mb-3">
+                                <div class="input-group-text">
+                                    <input type="checkbox" class="limitEnabled">
+                                </div>
+                                <input type="number" class="form-control limit currentSetting" min="0" step="0.01"
+                                    placeholder="Overcurrent limit">
+                                <span class="input-group-text">A</span>
+                            </div>
+                            <label class="form-label">Overpower alarm:</label>
+                            <div class="input-group mb-3">
+                                <div class="input-group-text">
+                                    <input type="checkbox" class="limitEnabled">
+                                </div>
+                                <input type="number" class="form-control limit powerSetting" min="0" step="1"
+                                    placeholder="Overpower limit">
+                                <span class="input-group-text">W</span>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <div class="alert alert-success visually-hidden flex-grow-1 p-2" id="settingsSuccess" role="alert">
+                            Settings have been saved.
                         </div>
-                    </div>
-                    <input type="number" class="form-control limit voltageSetting" min="0" step="0.01" placeholder="Undervoltage limit">
-                    <div class="input-group-append">
-                      <span class="input-group-text">V</span>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-success" id="saveBtn">Save</button>
                     </div>
                 </div>
-                <label class="form-label">Overvoltage alarm:</label>
-                <div class="input-group mb-3">
-                    <div class="input-group-prepend">
-                        <div class="input-group-text">
-                          <input type="checkbox" class="limitEnabled">
-                        </div>
-                    </div>
-                    <input type="number" class="form-control limit voltageSetting" min="0" step="0.01" placeholder="Overvoltage limit">
-                    <div class="input-group-append">
-                      <span class="input-group-text">V</span>
-                    </div>
-                </div>
-                <label class="form-label">Overcurrent alarm:</label>
-                <div class="input-group mb-3">
-                    <div class="input-group-prepend">
-                        <div class="input-group-text">
-                          <input type="checkbox" class="limitEnabled">
-                        </div>
-                    </div>
-                    <input type="number" class="form-control limit currentSetting" min="0" step="0.01" placeholder="Overcurrent limit">
-                    <div class="input-group-append">
-                      <span class="input-group-text">A</span>
-                    </div>
-                </div>
-                <label class="form-label">Overpower alarm:</label>
-                <div class="input-group mb-3">
-                    <div class="input-group-prepend">
-                        <div class="input-group-text">
-                          <input type="checkbox" class="limitEnabled">
-                        </div>
-                    </div>
-                    <input type="number" class="form-control limit powerSetting" min="0" step="1" placeholder="Overpower limit">
-                    <div class="input-group-append">
-                      <span class="input-group-text">W</span>
-                    </div>
-                </div>
-                <div class="d-grid">
-                    <button type="button" class="btn btn-success btn-block" id="saveBtn">Save</button>
-                </div>
-            </form>
+            </div>
         </div>
         <div class="row">
             <div class="col-md-6 col-lg-4 p-3">
@@ -126,4 +137,5 @@
         </div>
     </div>
 </body>
+
 </html>

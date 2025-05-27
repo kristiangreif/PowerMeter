@@ -3,7 +3,10 @@
 #include <WiFi.h>
 #include <AsyncTCP.h>
 #include <ESPAsyncWebServer.h>
-#include <SPIFFS.h>
+// #include <SPIFFS.h>
+#include <LittleFS.h>
+
+#define SPIFFS LittleFS
 
 const char* SSID = "PowerMeter";
 const char* PASSWORD = "secret AP pw";
@@ -32,7 +35,7 @@ void handleWebSocketMessage(void *arg, uint8_t *data, size_t len) {
   AwsFrameInfo *info = (AwsFrameInfo*)arg;
   if (info->final && info->index == 0 && info->len == len && info->opcode == WS_TEXT) {
     data[len] = 0;
-    // Serial.println((char*) data);
+    Serial.println((char*) data);
     updateLimits((char*) data);
   }
 }
@@ -78,6 +81,10 @@ void initServer() {
 
     server.on("/bootstrap.min.css", HTTP_GET, [](AsyncWebServerRequest *request){
         request->send(SPIFFS, "/bootstrap.min.css", "text/css");
+    });
+
+    server.on("/bootstrap.bundle.min.js", HTTP_GET, [](AsyncWebServerRequest *request){
+        request->send(SPIFFS, "/bootstrap.bundle.min.js", "text/javascript");
     });
 
     server.on("/script.js", HTTP_GET, [](AsyncWebServerRequest *request){

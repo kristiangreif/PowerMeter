@@ -3,6 +3,9 @@ const ws = new WebSocket("ws://192.168.4.1/ws");
 const settingsButton = document.getElementById('settingsBtn');
 const saveButton = document.getElementById('saveBtn');
 
+const startButton = document.getElementById('startBtn');
+const resetButton = document.getElementById('resetBtn');
+
 const voltageDisplay = document.getElementById('voltage');
 const currentDisplay = document.getElementById('current');
 const powerDisplay = document.getElementById('power');
@@ -10,6 +13,20 @@ const capacityDisplay = document.getElementById('capacity');
 const energyDisplay = document.getElementById('energy');
 
 let display = false;
+
+const modal = document.getElementById('exampleModal');
+
+modal.addEventListener('shown.bs.modal', () => {
+    saveButton.focus();
+    saveButton.addEventListener('click', saveSettings);
+});
+
+startButton.addEventListener('click', () => {
+    startButton.classList.toggle('btn-success');
+    startButton.classList.toggle('btn-warning');
+
+    startButton.innerText =  startButton.classList.contains('btn-warning') ? 'Pause' : 'Start';
+});
 
 const toggleSettings = () => {
     const settingsForm = document.getElementById('settingsForm');
@@ -26,7 +43,6 @@ const toggleSettings = () => {
 
 ws.onopen = () => {
     alert('Connection Established');
-    saveButton.addEventListener('click', saveSettings);
 };
 
 ws.onmessage = (evt) => {
@@ -44,10 +60,13 @@ const saveSettings = () => {
     const limits = document.getElementsByClassName('limit');
 
     let settings = {
-        'uvlimit': [false, 0],
-        'ovlimit': [false, 0],
-        'ovclimit': [false, 0],
-        'ovplimit': [false, 0]
+        'event': 'saveSettings',
+        'payload': {
+            'uvlimit': [false, 0],
+            'ovlimit': [false, 0],
+            'ovclimit': [false, 0],
+            'ovplimit': [false, 0]
+        }
     };
 
     let n = 0;
@@ -56,8 +75,31 @@ const saveSettings = () => {
         settings[setting][1] = parseFloat(limits[n].value);
         n = n + 1;
     }
+    console.log(settings);
 
-    ws.send(JSON.stringify(settings));
+    const settingSuccess = document.getElementById('settingsSuccess');
+
+    try {
+        ws.send(JSON.stringify(settings));
+
+        settingSuccess.classList.add('alert-success');
+        settingSuccess.classList.remove('alert-danger');
+        settingSuccess.innerText = 'Settings saved successfully.';
+    } catch (error) {
+        console.log(error);
+
+        settingSuccess.classList.add('alert-danger');
+        settingSuccess.classList.remove('alert-success');
+        settingSuccess.innerText = 'Settings could not be saved.';
+    } finally {
+        settingSuccess.classList.remove('visually-hidden');
+    
+        setTimeout(() => {
+            settingSuccess.classList.add('visually-hidden');
+        }, 5000);
+    }
+    
+    
 }
 
 const handleInput = () => {
@@ -94,4 +136,4 @@ const handleInput = () => {
 
 handleInput();
 
-settingsButton.addEventListener('click', toggleSettings);
+// settingsButton.addEventListener('click', toggleSettings);
