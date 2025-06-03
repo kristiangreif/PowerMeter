@@ -8,6 +8,9 @@
 
 #define SPIFFS LittleFS
 
+const char* INTERNET_SSID = "your wifi ssid";
+const char* INTERNET_PASSWORD = "your wifi password";
+
 const char* SSID = "PowerMeter";
 const char* PASSWORD = "secret AP pw";
 
@@ -20,8 +23,13 @@ AsyncWebSocketClient *globalClient = NULL;
 void initAP() {
     WiFi.disconnect();
     WiFi.mode(WIFI_OFF);
-    WiFi.mode(WIFI_AP);
+    WiFi.mode(WIFI_AP_STA);
   
+    // connect to wifi
+    WiFi.begin(INTERNET_SSID, INTERNET_PASSWORD);
+    delay(50);
+
+    // create an access point
     WiFi.softAP(SSID, PASSWORD);
     delay(500);
 

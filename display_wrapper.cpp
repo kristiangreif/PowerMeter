@@ -9,6 +9,32 @@ void initDisplay(){
     display.flipScreenVertically();
 }
 
+void wifiConnectScreen() {
+  display.clear();
+
+    display.setTextAlignment(TEXT_ALIGN_CENTER);
+    display.setFont(Dialog_bold_16);
+    display.drawString(64, 0, "PowerMeter");
+    display.setFont(Dialog_plain_12);
+    display.drawString(64, 20, "Connecting to");
+    display.drawString(64, 40, "WiFi ...");
+
+    display.display();
+}
+
+void dbConnectScreen() {
+  display.clear();
+
+    display.setTextAlignment(TEXT_ALIGN_CENTER);
+    display.setFont(Dialog_bold_16);
+    display.drawString(64, 0, "PowerMeter");
+    display.setFont(Dialog_plain_12);
+    display.drawString(64, 20, "Connecting to");
+    display.drawString(64, 40, "InfluxDB ...");
+
+    display.display();
+}
+
 void welcomeScreen(){
     display.clear();
 

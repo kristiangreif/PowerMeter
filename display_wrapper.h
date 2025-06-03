@@ -5,6 +5,8 @@
 #include "sensor_wrapper.h"
 
 void initDisplay();
+void wifiConnectScreen();
+void dbConnectScreen();
 void welcomeScreen();
 void basicsScreen(char *voltage, char *current, char *power);
 void capacityScreen(char *capacityAh, char *capacityWh);

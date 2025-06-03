@@ -2,6 +2,7 @@
 #include "sensor_wrapper.h"
 #include "display_wrapper.h"
 #include "server_wrapper.h"
+#include "database_wrapper.h"
 #include "fonts.h"
 #include <OneButton.h>
 
@@ -31,9 +32,14 @@ void setupMeter(){
     setupINA();
     pinMode(RELAY_PIN, OUTPUT);
 
+    wifiConnectScreen();
+    initAP();
+
+    dbConnectScreen();
+    initDB();
+
     welcomeScreen();
 
-    initAP();
     initServer();
 
     button.attachLongPressStart(toggle);
@@ -75,6 +81,9 @@ void measure(){
                 serializeReadings(readings, json);
                 sendMessage(json);
                 Serial.println(json);
+
+                int dbWriteStatus = writeReadings(readings);
+
                 lastUpdate = millis();
             }
             
