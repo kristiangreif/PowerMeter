@@ -1,141 +1,208 @@
 <!DOCTYPE html>
 
 <html>
+	<head>
+		<title>PowerMeter</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<link rel="icon" href="data:," />
+		<link rel="stylesheet" type="text/css" href="bootstrap.min.css" />
+		<script
+			src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"
+			integrity="sha512-ZwR1/gSZM3ai6vCdI+LVF1zSq/5HznD3ZSTk7kajkaj4D292NLuduDCO1c/NT8Id+jE58KYLKT7hXnbtryGmMg=="
+			crossorigin="anonymous"
+			referrerpolicy="no-referrer"></script>
+		<script src="bootstrap.bundle.min.js"></script>
+		<style media="screen">
+			body {
+				background-color: #2e3032;
+			}
 
-<head>
-    <title>PowerMeter</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="icon" href="data:,">
-    <link rel="stylesheet" type="text/css" href="bootstrap.min.css">
-    <script src="bootstrap.bundle.min.js"></script>
-    <style media="screen">
-        body {
-            background-color: #232426;
-        }
+			.text-responsive {
+				font-size: calc(100% + 3vw + 3vh);
+			}
+		</style>
+		<script src="script.js" charset="utf-8" defer></script>
+	</head>
 
-        .text-responsive {
-            font-size: calc(100% + 3vw + 3vh);
-        }
-    </style>
-    <script src="script.js" charset="utf-8" defer></script>
-</head>
-
-<body>
-    <nav class="navbar navbar-expand-sm bg-primary navbar-dark fixed-top">
-        <div class="container-fluid">
-            <a class="navbar-brand" href="#">PowerMeter</a>
-            <div class="btn-group btn-group-lg" role="group" aria-label="Basic mixed styles example">
-                <button type="button" class="btn btn btn-danger" id="resetBtn">Reset</button>
-                <button type="button" class="btn btn-success" id="startBtn">Start</button>
-              </div>
-            <button class="btn btn-dark" id="settingsBtn" type="button" data-bs-toggle="modal"
-                data-bs-target="#exampleModal">Settings</button>
-        </div>
-    </nav>
-    <div class="container-fluid px-3" style="margin-top:70px">
-        <!-- Modal -->
-        <div class="modal fade" data-bs-theme="dark" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h1 class="modal-title fs-5" id="exampleModalLabel">Settings</h1>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body">
-                        <form>
-                            <label class="form-label">Undervoltage alarm:</label>
-                            <div class="input-group mb-3">
-                                <div class="input-group-text">
-                                    <input type="checkbox" class="limitEnabled">
-                                </div>
-                                <input type="number" class="form-control limit voltageSetting" min="0" step="0.01"
-                                    placeholder="Undervoltage limit">
-                                <span class="input-group-text">V</span>
-                            </div>
-                            <label class="form-label">Overvoltage alarm:</label>
-                            <div class="input-group mb-3">
-                                <div class="input-group-text">
-                                    <input type="checkbox" class="limitEnabled">
-                                </div>
-                                <input type="number" class="form-control limit voltageSetting" min="0" step="0.01"
-                                    placeholder="Overvoltage limit">
-                                <span class="input-group-text">V</span>
-                            </div>
-                            <label class="form-label">Overcurrent alarm:</label>
-                            <div class="input-group mb-3">
-                                <div class="input-group-text">
-                                    <input type="checkbox" class="limitEnabled">
-                                </div>
-                                <input type="number" class="form-control limit currentSetting" min="0" step="0.01"
-                                    placeholder="Overcurrent limit">
-                                <span class="input-group-text">A</span>
-                            </div>
-                            <label class="form-label">Overpower alarm:</label>
-                            <div class="input-group mb-3">
-                                <div class="input-group-text">
-                                    <input type="checkbox" class="limitEnabled">
-                                </div>
-                                <input type="number" class="form-control limit powerSetting" min="0" step="1"
-                                    placeholder="Overpower limit">
-                                <span class="input-group-text">W</span>
-                            </div>
-                        </form>
-                    </div>
-                    <div class="modal-footer">
-                        <div class="alert alert-success visually-hidden flex-grow-1 p-2" id="settingsSuccess" role="alert">
-                            Settings have been saved.
-                        </div>
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                        <button type="button" class="btn btn-success" id="saveBtn">Save</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-md-6 col-lg-4 p-3">
-                <div class="card bg-info shadow">
-                    <div class="card-header text-light font-weight-bold">Voltage</div>
-                    <div class="card-body text-light">
-                        <h1 id="voltage" class="display-1 text-center text-responsive">0.000V</h1>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-6 col-lg-4 p-3">
-                <div class="card bg-danger shadow">
-                    <div class="card-header text-light font-weight-bold">Current</div>
-                    <div class="card-body text-light">
-                        <h1 id="current" class="display-1 text-center text-responsive">0.00A</h1>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-12 col-lg-4 p-3">
-                <div class="card bg-success shadow">
-                    <div class="card-header text-light font-weight-bold">Power</div>
-                    <div class="card-body text-light">
-                        <h1 id="power" class="display-1 text-center text-responsive">0W</h1>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-md-6 p-3">
-                <div class="card bg-warning shadow">
-                    <div class="card-header text-light font-weight-bold">Capacity</div>
-                    <div class="card-body text-light">
-                        <h1 id="capacity" class="display-1 text-center text-responsive">0Ah</h1>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-6 p-3">
-                <div class="card bg-primary shadow">
-                    <div class="card-header text-light font-weight-bold">Energy</div>
-                    <div class="card-body text-light">
-                        <h1 id="energy" class="display-1 text-center text-responsive">0Wh</h1>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</body>
-
+	<body>
+		<nav class="navbar navbar-expand-sm bg-primary navbar-dark fixed-top">
+			<div class="container-fluid">
+				<a class="navbar-brand" href="#">PowerMeter</a>
+				<div
+					class="btn-group btn-group-lg"
+					role="group"
+					aria-label="Basic mixed styles example">
+					<button type="button" class="btn btn btn-danger" id="resetBtn">
+						Reset
+					</button>
+					<button type="button" class="btn btn-success" id="startBtn">
+						Start
+					</button>
+				</div>
+				<button
+					class="btn btn-dark"
+					id="settingsBtn"
+					type="button"
+					data-bs-toggle="modal"
+					data-bs-target="#exampleModal">
+					Settings
+				</button>
+			</div>
+		</nav>
+		<div class="container-fluid px-3" style="margin-top: 70px">
+			<!-- Modal -->
+			<div
+				class="modal fade"
+				data-bs-theme="dark"
+				id="exampleModal"
+				tabindex="-1"
+				aria-labelledby="exampleModalLabel"
+				aria-hidden="true">
+				<div class="modal-dialog">
+					<div class="modal-content">
+						<div class="modal-header">
+							<h1 class="modal-title fs-5" id="exampleModalLabel">Settings</h1>
+							<button
+								type="button"
+								class="btn-close"
+								data-bs-dismiss="modal"
+								aria-label="Close"></button>
+						</div>
+						<div class="modal-body">
+							<form>
+								<label class="form-label">Undervoltage alarm:</label>
+								<div class="input-group mb-3">
+									<div class="input-group-text">
+										<input type="checkbox" class="limitEnabled" />
+									</div>
+									<input
+										type="number"
+										class="form-control limit voltageSetting"
+										min="0"
+										step="0.01"
+										placeholder="Undervoltage limit" />
+									<span class="input-group-text">V</span>
+								</div>
+								<label class="form-label">Overvoltage alarm:</label>
+								<div class="input-group mb-3">
+									<div class="input-group-text">
+										<input type="checkbox" class="limitEnabled" />
+									</div>
+									<input
+										type="number"
+										class="form-control limit voltageSetting"
+										min="0"
+										step="0.01"
+										placeholder="Overvoltage limit" />
+									<span class="input-group-text">V</span>
+								</div>
+								<label class="form-label">Overcurrent alarm:</label>
+								<div class="input-group mb-3">
+									<div class="input-group-text">
+										<input type="checkbox" class="limitEnabled" />
+									</div>
+									<input
+										type="number"
+										class="form-control limit currentSetting"
+										min="0"
+										step="0.01"
+										placeholder="Overcurrent limit" />
+									<span class="input-group-text">A</span>
+								</div>
+								<label class="form-label">Overpower alarm:</label>
+								<div class="input-group mb-3">
+									<div class="input-group-text">
+										<input type="checkbox" class="limitEnabled" />
+									</div>
+									<input
+										type="number"
+										class="form-control limit powerSetting"
+										min="0"
+										step="1"
+										placeholder="Overpower limit" />
+									<span class="input-group-text">W</span>
+								</div>
+							</form>
+						</div>
+						<div class="modal-footer">
+							<div
+								class="alert alert-success visually-hidden flex-grow-1 p-2"
+								id="settingsSuccess"
+								role="alert">
+								Settings have been saved.
+							</div>
+							<button
+								type="button"
+								class="btn btn-secondary"
+								data-bs-dismiss="modal">
+								Close
+							</button>
+							<button type="button" class="btn btn-success" id="saveBtn">
+								Save
+							</button>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-md-6 col-lg-4 p-3">
+					<div class="card shadow" data-bs-theme="dark">
+						<div class="card-header text-light font-weight-bold">Voltage</div>
+						<div class="card-body text-light">
+							<h1 id="voltage" class="display-1 text-center text-responsive">
+								0.000V
+							</h1>
+							<canvas id="voltageChart"></canvas>
+						</div>
+					</div>
+				</div>
+				<div class="col-md-6 col-lg-4 p-3">
+					<div class="card shadow" data-bs-theme="dark">
+						<div class="card-header text-light font-weight-bold">Current</div>
+						<div class="card-body text-light">
+							<h1 id="current" class="display-1 text-center text-responsive">
+								0.00A
+							</h1>
+							<canvas id="currentChart"></canvas>
+						</div>
+					</div>
+				</div>
+				<div class="col-md-12 col-lg-4 p-3">
+					<div class="card shadow" data-bs-theme="dark">
+						<div class="card-header text-light font-weight-bold">Power</div>
+						<div class="card-body text-light">
+							<h1 id="power" class="display-1 text-center text-responsive">
+								0W
+							</h1>
+							<canvas id="powerChart"></canvas>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-md-6 p-3">
+					<div class="card shadow" data-bs-theme="dark">
+						<div class="card-header text-light font-weight-bold">Capacity</div>
+						<div class="card-body text-light">
+							<h1 id="capacity" class="display-1 text-center text-responsive">
+								0Ah
+							</h1>
+							<canvas id="capacityAhChart"></canvas>
+						</div>
+					</div>
+				</div>
+				<div class="col-md-6 p-3">
+					<div class="card shadow" data-bs-theme="dark">
+						<div class="card-header text-light font-weight-bold">Energy</div>
+						<div class="card-body text-light">
+							<h1 id="energy" class="display-1 text-center text-responsive">
+								0Wh
+							</h1>
+							<canvas id="capacityWhChart"></canvas>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</body>
 </html>
