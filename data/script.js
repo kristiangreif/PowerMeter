@@ -1,15 +1,29 @@
+let voltageChart = null;
+let currentChart = null;
+let powerChart = null;
+let capacityAhChart = null;
+let capacityWhChart = null;
+
 (async function () {
-	new Chart(document.getElementById("voltageChart"), {
+	voltageChart = new Chart(document.getElementById("voltageChart"), {
 		type: "line",
 		data: {
-			labels: [0, 1, 2, 3, 4, 5, 6],
+			labels: [
+				"2023-03-01T08:00:00",
+				"2023-03-01T08:00:01",
+				"2023-03-01T08:00:02",
+				"2023-03-01T08:01:03",
+				"2023-03-01T08:01:04",
+				"2023-03-01T08:01:05",
+				"2023-03-01T08:10:02",
+			],
 			datasets: [
 				{
 					label: "My First Dataset",
 					data: [65, 59, 80, 81, 56, 55, 40],
 					fill: false,
 					borderColor: "rgb(75, 192, 192)",
-					tension: 0.1,
+					tension: 0.01,
 				},
 			],
 		},
@@ -32,8 +46,16 @@
 
 					title: {
 						display: true,
-						text: "Time [s]", // Add title to x-axis
+						text: "Time", // Add title to x-axis
 						color: "white",
+					},
+
+					type: "time",
+					time: {
+						unit: "minute",
+						displayFormats: {
+							day: "HH:mm:ss",
+						},
 					},
 				},
 				y: {
@@ -54,10 +76,18 @@
 		},
 	});
 
-	new Chart(document.getElementById("currentChart"), {
+	currentChart = new Chart(document.getElementById("currentChart"), {
 		type: "line",
 		data: {
-			labels: [0, 1, 2, 3, 4, 5, 6],
+			labels: [
+				"2023-03-01T08:00:00",
+				"2023-03-01T08:00:01",
+				"2023-03-01T08:00:02",
+				"2023-03-01T08:01:03",
+				"2023-03-01T08:01:04",
+				"2023-03-01T08:01:05",
+				"2023-03-01T08:10:02",
+			],
 			datasets: [
 				{
 					label: "My First Dataset",
@@ -87,8 +117,15 @@
 
 					title: {
 						display: true,
-						text: "Time [s]", // Add title to x-axis
+						text: "Time", // Add title to x-axis
 						color: "white",
+					},
+					type: "time",
+					time: {
+						unit: "minute",
+						displayFormats: {
+							day: "HH:mm:ss",
+						},
 					},
 				},
 				y: {
@@ -109,18 +146,26 @@
 		},
 	});
 
-	new Chart(document.getElementById("powerChart"), {
+	powerChart = new Chart(document.getElementById("powerChart"), {
 		type: "line",
 		data: {
-			labels: [0, 1, 2, 3, 4, 5, 6],
+			labels: [
+				"2023-03-01T08:00:00",
+				"2023-03-01T08:00:01",
+				"2023-03-01T08:00:02",
+				"2023-03-01T08:01:03",
+				"2023-03-01T08:01:04",
+				"2023-03-01T08:01:05",
+				"2023-03-01T08:10:02",
+			],
 			datasets: [
 				{
 					label: "My First Dataset",
 					data: [65, 59, 80, 81, 56, 55, 40],
-					fill: {
-						target: "origin",
-						above: "rgba(34, 206, 111, 0.19)", // Area will be red above the origin
-					},
+					// fill: {
+					// 	target: "origin",
+					// 	above: "rgba(34, 206, 111, 0.19)", // Area will be red above the origin
+					// },
 					borderColor: "rgb(34, 206, 111)",
 					tension: 0.1,
 				},
@@ -145,8 +190,15 @@
 
 					title: {
 						display: true,
-						text: "Time [s]", // Add title to x-axis
+						text: "Time", // Add title to x-axis
 						color: "white",
+					},
+					type: "time",
+					time: {
+						unit: "minute",
+						displayFormats: {
+							day: "HH:mm:ss",
+						},
 					},
 				},
 				y: {
@@ -167,33 +219,28 @@
 		},
 	});
 
-	new Chart(document.getElementById("capacityAhChart"), {
-		type: "bar",
+	capacityAhChart = new Chart(document.getElementById("capacityAhChart"), {
+		type: "line",
 		data: {
-			labels: [0, 1, 2, 3, 4, 5, 6],
+			labels: [
+				"2023-03-01T08:00:00",
+				"2023-03-01T08:00:01",
+				"2023-03-01T08:00:02",
+				"2023-03-01T08:01:03",
+				"2023-03-01T08:01:04",
+				"2023-03-01T08:01:05",
+				"2023-03-01T08:10:02",
+			],
 			datasets: [
 				{
 					label: "My First Dataset",
 					data: [65, 59, 80, 81, 56, 55, 40],
-					backgroundColor: [
-						"rgba(255, 99, 132, 0.2)",
-						"rgba(255, 159, 64, 0.2)",
-						"rgba(255, 205, 86, 0.2)",
-						"rgba(75, 192, 192, 0.2)",
-						"rgba(54, 162, 235, 0.2)",
-						"rgba(153, 102, 255, 0.2)",
-						"rgba(201, 203, 207, 0.2)",
-					],
-					borderColor: [
-						"rgb(255, 99, 132)",
-						"rgb(255, 159, 64)",
-						"rgb(255, 205, 86)",
-						"rgb(75, 192, 192)",
-						"rgb(54, 162, 235)",
-						"rgb(153, 102, 255)",
-						"rgb(201, 203, 207)",
-					],
-					borderWidth: 1,
+					fill: {
+						target: "origin",
+						above: "rgba(227, 166, 34, 0.19)", // Area will be red above the origin
+					},
+					borderColor: "rgb(227, 166, 34)",
+					tension: 0.1,
 				},
 			],
 		},
@@ -216,8 +263,15 @@
 
 					title: {
 						display: true,
-						text: "Time [s]", // Add title to x-axis
+						text: "Time", // Add title to x-axis
 						color: "white",
+					},
+					type: "time",
+					time: {
+						unit: "minute",
+						displayFormats: {
+							day: "HH:mm:ss",
+						},
 					},
 				},
 				y: {
@@ -238,33 +292,28 @@
 		},
 	});
 
-	new Chart(document.getElementById("capacityWhChart"), {
-		type: "bar",
+	capacityWhChart = new Chart(document.getElementById("capacityWhChart"), {
+		type: "line",
 		data: {
-			labels: [0, 1, 2, 3, 4, 5, 6],
+			labels: [
+				"2023-03-01T08:00:00",
+				"2023-03-01T08:00:01",
+				"2023-03-01T08:00:02",
+				"2023-03-01T08:01:03",
+				"2023-03-01T08:01:04",
+				"2023-03-01T08:01:05",
+				"2023-03-01T08:10:02",
+			],
 			datasets: [
 				{
 					label: "My First Dataset",
 					data: [65, 59, 80, 81, 56, 55, 40],
-					backgroundColor: [
-						"rgba(255, 99, 132, 0.2)",
-						"rgba(255, 159, 64, 0.2)",
-						"rgba(255, 205, 86, 0.2)",
-						"rgba(75, 192, 192, 0.2)",
-						"rgba(54, 162, 235, 0.2)",
-						"rgba(153, 102, 255, 0.2)",
-						"rgba(201, 203, 207, 0.2)",
-					],
-					borderColor: [
-						"rgb(255, 99, 132)",
-						"rgb(255, 159, 64)",
-						"rgb(255, 205, 86)",
-						"rgb(75, 192, 192)",
-						"rgb(54, 162, 235)",
-						"rgb(153, 102, 255)",
-						"rgb(201, 203, 207)",
-					],
-					borderWidth: 1,
+					fill: {
+						target: "origin",
+						above: "rgba(117, 34, 206, 0.19)", // Area will be red above the origin
+					},
+					borderColor: "rgb(117, 34, 206)",
+					tension: 0.1,
 				},
 			],
 		},
@@ -287,8 +336,15 @@
 
 					title: {
 						display: true,
-						text: "Time [s]", // Add title to x-axis
+						text: "Time", // Add title to x-axis
 						color: "white",
+					},
+					type: "time",
+					time: {
+						unit: "minute",
+						displayFormats: {
+							day: "HH:mm:ss",
+						},
 					},
 				},
 				y: {
@@ -315,8 +371,8 @@ const ws = new WebSocket("ws://192.168.4.1/ws");
 const settingsButton = document.getElementById("settingsBtn");
 const saveButton = document.getElementById("saveBtn");
 
-const startButton = document.getElementById("startBtn");
-const resetButton = document.getElementById("resetBtn");
+// const startButton = document.getElementById("startBtn");
+// const resetButton = document.getElementById("resetBtn");
 
 const voltageDisplay = document.getElementById("voltage");
 const currentDisplay = document.getElementById("current");
@@ -333,14 +389,14 @@ modal.addEventListener("shown.bs.modal", () => {
 	saveButton.addEventListener("click", saveSettings);
 });
 
-startButton.addEventListener("click", () => {
-	startButton.classList.toggle("btn-success");
-	startButton.classList.toggle("btn-warning");
+// startButton.addEventListener("click", () => {
+// 	startButton.classList.toggle("btn-success");
+// 	startButton.classList.toggle("btn-warning");
 
-	startButton.innerText = startButton.classList.contains("btn-warning")
-		? "Pause"
-		: "Start";
-});
+// 	startButton.innerText = startButton.classList.contains("btn-warning")
+// 		? "Pause"
+// 		: "Start";
+// });
 
 const toggleSettings = () => {
 	const settingsForm = document.getElementById("settingsForm");
@@ -356,10 +412,105 @@ const toggleSettings = () => {
 };
 
 ws.onopen = () => {
-	alert("Connection Established");
+	console.log("Connection Established");
 };
 
+ws.onclose = () => {
+	queryInProgress = false;
+	console.log("Connection Terminated");
+};
+
+let primaryReadings = {
+	voltage: {
+		labels: [],
+		data: [],
+		chart: voltageChart,
+	},
+	current: {
+		labels: [],
+		data: [],
+		chart: currentChart,
+	},
+	power: {
+		labels: [],
+		data: [],
+		chart: powerChart,
+	},
+	capacity_ah: {
+		labels: [],
+		data: [],
+		chart: capacityAhChart,
+	},
+	capacity_wh: {
+		labels: [],
+		data: [],
+		chart: capacityWhChart,
+	},
+};
+
+let queryInProgress = false;
+const querySpinner = document.getElementById("querySpinner");
+const queryAlert = document.getElementById("queryAlert");
+
 ws.onmessage = (evt) => {
+	if (evt.data === "QUERY_STARTED") {
+		for (const series in primaryReadings) {
+			if (Object.prototype.hasOwnProperty.call(primaryReadings, series)) {
+				primaryReadings[series].labels = [];
+				primaryReadings[series].data = [];
+			}
+		}
+
+		queryInProgress = true;
+
+		querySpinner.classList.remove("d-none");
+		queryAlert.classList.add("d-none");
+		return;
+	}
+
+	if (evt.data === "QUERY_FINISHED" || evt.data === "QUERY_ERROR") {
+		queryInProgress = false;
+		querySpinner.classList.add("d-none");
+
+		if (evt.data === "QUERY_ERROR") queryAlert.classList.remove("d-none");
+
+		for (const series in primaryReadings) {
+			if (Object.prototype.hasOwnProperty.call(primaryReadings, series)) {
+				if (!primaryReadings[series].chart) continue;
+
+				primaryReadings[series]["chart"].data.labels =
+					primaryReadings[series].labels;
+				primaryReadings[series]["chart"].data.datasets[0].data =
+					primaryReadings[series].data;
+
+				primaryReadings[series].chart.update();
+			}
+		}
+
+		// console.log(primaryReadings);
+
+		return;
+	}
+
+	if (queryInProgress) {
+		const csvLines = evt.data.split("\n");
+
+		csvLines.forEach((csvLine) => {
+			const parsedCsv = csvLine.split(",");
+
+			if (parsedCsv.length !== 3) return;
+
+			const field = parsedCsv[0];
+			const timestamp = parsedCsv[1];
+			const value = parseFloat(parsedCsv[2]);
+
+			primaryReadings[field].labels.push(timestamp);
+			primaryReadings[field].data.push(value);
+		});
+
+		return;
+	}
+
 	const readings = JSON.parse(evt.data);
 
 	voltageDisplay.innerHTML = readings["voltage"];
@@ -374,24 +525,26 @@ const saveSettings = () => {
 	const limits = document.getElementsByClassName("limit");
 
 	let settings = {
-		event: "saveSettings",
-		payload: {
-			uvlimit: [false, 0],
-			ovlimit: [false, 0],
-			ovclimit: [false, 0],
-			ovplimit: [false, 0],
-		},
+		uvlimit: [false, 0],
+		ovlimit: [false, 0],
+		ovclimit: [false, 0],
+		ovplimit: [false, 0],
 	};
 
 	let n = 0;
 	for (const setting in settings) {
-		settings[setting][0] = limitStates[n].checked;
-		settings[setting][1] = parseFloat(limits[n].value);
+		settings[setting][0] = limitStates[n].checked || false;
+		settings[setting][1] = parseFloat(limits[n].value || 0);
 		n = n + 1;
 	}
 	console.log(settings);
 
 	const settingSuccess = document.getElementById("settingsSuccess");
+
+	if (queryInProgress) {
+		console.log("waiting for query to finish");
+		return;
+	}
 
 	try {
 		ws.send(JSON.stringify(settings));
@@ -449,3 +602,54 @@ const handleInput = () => {
 handleInput();
 
 // settingsButton.addEventListener('click', toggleSettings);
+
+document.addEventListener("DOMContentLoaded", (event) => {
+	const now = new Date();
+	const oneHourAgo = new Date(now.getTime() - 60 * 60 * 1000);
+
+	const formatDateTime = (date) => {
+		const year = date.getFullYear();
+		const month = String(date.getMonth() + 1).padStart(2, "0");
+		const day = String(date.getDate()).padStart(2, "0");
+		const hours = String(date.getHours()).padStart(2, "0");
+		const minutes = String(date.getMinutes()).padStart(2, "0");
+		const seconds = String(date.getSeconds()).padStart(2, "0");
+		return `${year}-${month}-${day}T${hours}:${minutes}:${seconds}`;
+	};
+
+	document.getElementById("fromDateTime").value = formatDateTime(oneHourAgo);
+	document.getElementById("toDateTime").value = formatDateTime(now);
+});
+
+const timeRangeApplyButton = document.getElementById("timeRangeApply");
+
+timeRangeApplyButton.addEventListener("click", () => {
+	let fromTime = document.getElementById("fromDateTime").value;
+	let toTime = document.getElementById("toDateTime").value;
+
+	if (fromTime.length === 16) fromTime += ":00";
+	if (toTime.length === 16) toTime += ":00";
+
+	// Convert to Date object
+	const utcFromTime = new Date(fromTime);
+	const utcToTime = new Date(toTime);
+
+	// Convert to UTC string
+	const utcFromTimeString = utcFromTime.toISOString().slice(0, -5);
+	const utcToTimeString = utcToTime.toISOString().slice(0, -5);
+
+	const queryTimeInfo = `dtinfo.S${utcFromTimeString}E${utcToTimeString}`;
+
+	if (queryTimeInfo.length !== 47) return;
+
+	if (queryInProgress) {
+		console.log("waiting for query to finish");
+		return;
+	}
+
+	try {
+		ws.send(queryTimeInfo);
+	} catch (error) {
+		console.log(error);
+	}
+});

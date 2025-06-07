@@ -6,11 +6,14 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
 		<link rel="icon" href="data:," />
 		<link rel="stylesheet" type="text/css" href="bootstrap.min.css" />
-		<script
+		<!-- <script
 			src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"
 			integrity="sha512-ZwR1/gSZM3ai6vCdI+LVF1zSq/5HznD3ZSTk7kajkaj4D292NLuduDCO1c/NT8Id+jE58KYLKT7hXnbtryGmMg=="
 			crossorigin="anonymous"
-			referrerpolicy="no-referrer"></script>
+			referrerpolicy="no-referrer"></script> -->
+		<script src="chart.umd.js"></script>
+		<script src="chartjs-adapter-date-fns.min.js"></script>
+		<!-- <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns"></script> -->
 		<script src="bootstrap.bundle.min.js"></script>
 		<style media="screen">
 			body {
@@ -28,7 +31,7 @@
 		<nav class="navbar navbar-expand-sm bg-primary navbar-dark fixed-top">
 			<div class="container-fluid">
 				<a class="navbar-brand" href="#">PowerMeter</a>
-				<div
+				<!-- <div
 					class="btn-group btn-group-lg"
 					role="group"
 					aria-label="Basic mixed styles example">
@@ -38,7 +41,7 @@
 					<button type="button" class="btn btn-success" id="startBtn">
 						Start
 					</button>
-				</div>
+				</div> -->
 				<button
 					class="btn btn-dark"
 					id="settingsBtn"
@@ -144,7 +147,39 @@
 					</div>
 				</div>
 			</div>
-			<div class="row">
+			<div class="row" data-bs-theme="dark">
+				<div class="my-3 px-3">
+					<label class="form-label text-light">Historic Data Time Range</label>
+					<div class="input-group">
+						<span class="input-group-text">From:</span>
+						<input
+							type="datetime-local"
+							id="fromDateTime"
+							class="form-control"
+							aria-label="From DateTime" />
+						<span class="input-group-text">To:</span>
+						<input
+							type="datetime-local"
+							class="form-control"
+							id="toDateTime"
+							aria-label="To DateTime" />
+						<button class="btn btn-success" type="button" id="timeRangeApply">
+							Apply
+							<div
+								id="querySpinner"
+								class="spinner-border spinner-border-sm d-none"
+								role="status">
+								<span class="visually-hidden">Loading...</span>
+							</div>
+						</button>
+					</div>
+					<div
+						id="queryAlert"
+						class="alert alert-danger mt-3 d-none"
+						role="alert">
+						Error getting query response.
+					</div>
+				</div>
 				<div class="col-md-6 col-lg-4 p-3">
 					<div class="card shadow" data-bs-theme="dark">
 						<div class="card-header text-light font-weight-bold">Voltage</div>

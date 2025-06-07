@@ -4,9 +4,13 @@
 #include <Arduino.h>
 #include "sensor_wrapper.h"
 
+extern bool fetchDbReadings;
+extern char queryTimeFrom[21];
+extern char queryTimeTo[21];
+
 void initAP();
 void initServer();
 void handleConnections();
-void sendMessage(char *msg);
+void sendMessage(const char *msg);
 
 #endif

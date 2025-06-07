@@ -5,6 +5,7 @@
 #include "sensor_wrapper.h"
 
 void initDB();
-int writeReadings(READINGS *readings);
+int writeReadingsToDb(READINGS *readings);
+void getDbReadings(const char* timeFrom, const char* timeTo);
 
 #endif

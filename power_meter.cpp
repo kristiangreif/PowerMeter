@@ -47,6 +47,10 @@ void setupMeter(){
 }
 
 void measure(){
+    if (fetchDbReadings) {
+        getDbReadings(queryTimeFrom, queryTimeTo);
+        fetchDbReadings = false;
+    }
     if(measurementRunning){
         READINGS *readings = (READINGS*) malloc(sizeof(READINGS));
         char *json = (char*) malloc(JSON_SIZE);
@@ -59,6 +63,10 @@ void measure(){
         readings->capacityWh = 0.0;
         
         while(measurementRunning){
+            if (fetchDbReadings) {
+                getDbReadings(queryTimeFrom, queryTimeTo);
+                fetchDbReadings = false;
+            }
             processReadings(readings, &lastTime);
 
             if(protectionTriggered(readings)){
@@ -82,7 +90,7 @@ void measure(){
                 sendMessage(json);
                 Serial.println(json);
 
-                int dbWriteStatus = writeReadings(readings);
+                int dbWriteStatus = writeReadingsToDb(readings);
 
                 lastUpdate = millis();
             }

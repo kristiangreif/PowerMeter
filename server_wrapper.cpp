@@ -20,6 +20,10 @@ AsyncWebServer server(80);
 AsyncWebSocket ws("/ws");
 AsyncWebSocketClient *globalClient = NULL;
 
+bool fetchDbReadings = false;
+char queryTimeFrom[21]; 
+char queryTimeTo[21];
+
 void initAP() {
     WiFi.disconnect();
     WiFi.mode(WIFI_OFF);
@@ -44,21 +48,49 @@ void handleWebSocketMessage(void *arg, uint8_t *data, size_t len) {
   if (info->final && info->index == 0 && info->len == len && info->opcode == WS_TEXT) {
     data[len] = 0;
     Serial.println((char*) data);
+
+    if (len > 6 && strncmp((char*) data, "dtinfo", 6) == 0) {
+      strncpy(queryTimeFrom, (char*) data + 8, 19);
+      queryTimeFrom[19] = 'Z';
+      queryTimeFrom[20] = '\0';
+      strncpy(queryTimeTo, (char*) data + 28, 19);
+      queryTimeTo[19] = 'Z';
+      queryTimeTo[20] = '\0';
+
+      fetchDbReadings = true;
+      return;
+    }
+
     updateLimits((char*) data);
   }
 }
 
 void onWsEvent(AsyncWebSocket * server, AsyncWebSocketClient * client, AwsEventType type, void * arg, uint8_t *data, size_t len){
-  if(type == WS_EVT_CONNECT){
-    Serial.println("Websocket client connection received");
-    globalClient = client;
+  switch (type) {
+    case WS_EVT_CONNECT:
+      Serial.println("Websocket client connection received");
+      globalClient = client;
 
-  } else if(type == WS_EVT_DISCONNECT){
-    Serial.println("Websocket client connection finished");
-    globalClient = NULL;
+      break;
+    
+    case WS_EVT_DISCONNECT:
+      Serial.printf("WebSocket client #%u connection finished\n", client->id());
+      if (globalClient != NULL)
+        globalClient = NULL;
 
-  } else if(type == WS_EVT_DATA){
-    handleWebSocketMessage(arg, data, len);
+      break;
+
+    case WS_EVT_DATA:
+      handleWebSocketMessage(arg, data, len);
+      break;
+
+    case WS_EVT_ERROR:
+      Serial.println("WS error");
+      break;
+
+    default:
+      Serial.printf("WebSocket client #%u event type: %d\n", client->id(), type);
+      break;
   }
 }
 
@@ -95,6 +127,14 @@ void initServer() {
         request->send(SPIFFS, "/bootstrap.bundle.min.js", "text/javascript");
     });
 
+    server.on("/chartjs-adapter-date-fns.min.js", HTTP_GET, [](AsyncWebServerRequest *request){
+        request->send(SPIFFS, "/chartjs-adapter-date-fns.min.js", "text/javascript");
+    });
+
+    server.on("/chart.umd.js", HTTP_GET, [](AsyncWebServerRequest *request){
+        request->send(SPIFFS, "/chart.umd.js", "text/javascript");
+    });
+
     server.on("/script.js", HTTP_GET, [](AsyncWebServerRequest *request){
         request->send(SPIFFS, "/script.js", "text/javascript");
     });
@@ -107,7 +147,7 @@ void handleConnections(){
     ws.cleanupClients();
 }
 
-void sendMessage(char *msg){
+void sendMessage(const char *msg){
     if(globalClient != NULL && globalClient->status() == WS_CONNECTED){
       ws.textAll(msg);
     }
