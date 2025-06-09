@@ -5,14 +5,9 @@
 #include <ESPAsyncWebServer.h>
 // #include <SPIFFS.h>
 #include <LittleFS.h>
+#include "secrets.h"
 
 #define SPIFFS LittleFS
-
-const char* INTERNET_SSID = "your wifi ssid";
-const char* INTERNET_PASSWORD = "your wifi password";
-
-const char* SSID = "PowerMeter";
-const char* PASSWORD = "secret AP pw";
 
 const byte DNS_PORT = 53;
 DNSServer dnsServer;

@@ -3,11 +3,7 @@
 #include <WiFi.h>
 #include "sensor_wrapper.h"
 #include "server_wrapper.h"
-
-#define INFLUXDB_URL "https://eu-central-1-1.aws.cloud2.influxdata.com"
-#define INFLUXDB_TOKEN "YXrVFOp_jGtkrG_m5eTauEm0wxzNA_khi5P6f0S5Qi_HsrIOoK5t4q1DQmZR1nJ1D5HzibDP1ODKGBdGMrxewg=="
-#define INFLUXDB_ORG "d813fc04dea42d8a"
-#define INFLUXDB_BUCKET "Readings"
+#include "secrets.h"
   
 // Time zone info
 #define TZ_INFO "UTC2"
